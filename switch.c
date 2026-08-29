@@ -70,6 +70,7 @@ int main(int argc, char **argv)
     }
 
     // parse and output cfg
+    openconfig_interfaces(tokens);
 
     // free memory
     cleanup:
