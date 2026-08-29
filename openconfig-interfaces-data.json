@@ -1,0 +1,329 @@
+{
+  "openconfig-interfaces:interfaces": {
+    "interface": [
+      {
+        "config": {
+          "enabled": true,
+          "mtu": 9100,
+          "name": "Eth1/1",
+          "type": "iana-if-type:ethernetCsmacd"
+        },
+        "openconfig-if-ethernet:ethernet": {
+          "config": {
+            "openconfig-if-ethernet-ext2:advertised-speed": "25000",
+            "openconfig-if-aggregate:aggregate-id": "PortChannel126",
+            "auto-negotiate": true,
+            "openconfig-if-ethernet-ext2:port-fec": "openconfig-platform-types:FEC_DISABLED",
+            "port-speed": "openconfig-if-ethernet:SPEED_25GB",
+            "openconfig-if-ethernet-ext2:standalone-link-training": false,
+            "openconfig-if-ethernet-ext2:unreliable-los": "openconfig-if-ethernet-ext2:UNRELIABLE_LOS_MODE_AUTO"
+          }
+        },
+        "name": "Eth1/1",
+        "state": {
+          "admin-status": "UP",
+          "description": "",
+          "enabled": true,
+          "ifindex": 1,
+          "last-change": "1787580154",
+          "mac-address": "MAC_EX",
+          "mtu": 9100,
+          "name": "Eth1/1",
+          "oper-status": "UP",
+          "rate-interval": 10,
+          "type": "iana-if-type:ethernetCsmacd"
+        }
+      },
+      {
+        "config": {
+          "enabled": true,
+          "mtu": 9100,
+          "name": "Eth1/2",
+          "type": "iana-if-type:ethernetCsmacd"
+        },
+        "openconfig-if-ethernet:ethernet": {
+          "config": {
+            "openconfig-if-ethernet-ext2:advertised-speed": "25000",
+            "openconfig-if-aggregate:aggregate-id": "PortChannel125",
+            "auto-negotiate": true,
+            "openconfig-if-ethernet-ext2:port-fec": "openconfig-platform-types:FEC_DISABLED",
+            "port-speed": "openconfig-if-ethernet:SPEED_25GB",
+            "openconfig-if-ethernet-ext2:standalone-link-training": false,
+            "openconfig-if-ethernet-ext2:unreliable-los": "openconfig-if-ethernet-ext2:UNRELIABLE_LOS_MODE_AUTO"
+          }
+        },
+        "name": "Eth1/2",
+        "state": {
+          "admin-status": "UP",
+          "description": "",
+          "enabled": true,
+          "ifindex": 2,
+          "last-change": "1787580154",
+          "mac-address": "MAC_EX",
+          "mtu": 9100,
+          "name": "Eth1/2",
+          "oper-status": "UP",
+          "rate-interval": 10,
+          "type": "iana-if-type:ethernetCsmacd"
+        }
+      },
+      {
+        "config": {
+          "enabled": true,
+          "mtu": 9100,
+          "name": "Eth1/3",
+          "type": "iana-if-type:ethernetCsmacd"
+        },
+        "openconfig-if-ethernet:ethernet": {
+          "config": {
+            "openconfig-if-ethernet-ext2:advertised-speed": "25000",
+            "auto-negotiate": true,
+            "openconfig-if-ethernet-ext2:port-fec": "openconfig-platform-types:FEC_DISABLED",
+            "port-speed": "openconfig-if-ethernet:SPEED_25GB",
+            "openconfig-if-ethernet-ext2:standalone-link-training": false,
+            "openconfig-if-ethernet-ext2:unreliable-los": "openconfig-if-ethernet-ext2:UNRELIABLE_LOS_MODE_AUTO"
+          }
+        },
+        "name": "Eth1/3",
+        "state": {
+          "admin-status": "UP",
+          "description": "",
+          "enabled": true,
+          "ifindex": 3,
+          "mac-address": "MAC_EX",
+          "mtu": 9100,
+          "name": "Eth1/3",
+          "oper-status": "DOWN",
+          "rate-interval": 10,
+          "type": "iana-if-type:ethernetCsmacd"
+        }
+      },
+      {
+        "config": {
+          "enabled": true,
+          "mtu": 9100,
+          "name": "Eth1/4",
+          "type": "iana-if-type:ethernetCsmacd"
+        },
+        "openconfig-if-ethernet:ethernet": {
+          "config": {
+            "openconfig-if-ethernet-ext2:advertised-speed": "",
+            "auto-negotiate": false,
+            "openconfig-if-ethernet-ext2:port-fec": "openconfig-platform-types:FEC_DISABLED",
+            "port-speed": "openconfig-if-ethernet:SPEED_25GB",
+            "openconfig-if-ethernet-ext2:standalone-link-training": false,
+            "openconfig-if-ethernet-ext2:unreliable-los": "openconfig-if-ethernet-ext2:UNRELIABLE_LOS_MODE_AUTO"
+          }
+        },
+        "name": "Eth1/4",
+        "state": {
+          "admin-status": "UP",
+          "description": "",
+          "enabled": true,
+          "ifindex": 4,
+          "mac-address": "MAC_EX",
+          "mtu": 9100,
+          "name": "Eth1/4",
+          "oper-status": "DOWN",
+          "rate-interval": 10,
+          "type": "iana-if-type:ethernetCsmacd"
+        }
+      },
+      {
+        "config": {
+          "description": "DESC_EX",
+          "enabled": true,
+          "mtu": 9100,
+          "name": "Eth1/5",
+          "type": "iana-if-type:ethernetCsmacd"
+        },
+        "openconfig-if-ethernet:ethernet": {
+          "config": {
+            "openconfig-if-ethernet-ext2:advertised-speed": "",
+            "auto-negotiate": false,
+            "openconfig-if-ethernet-ext2:port-fec": "openconfig-platform-types:FEC_DISABLED",
+            "port-speed": "openconfig-if-ethernet:SPEED_25GB",
+            "openconfig-if-ethernet-ext2:standalone-link-training": false,
+            "openconfig-if-ethernet-ext2:unreliable-los": "openconfig-if-ethernet-ext2:UNRELIABLE_LOS_MODE_AUTO"
+          }
+        },
+        "name": "Eth1/5",
+        "state": {
+          "admin-status": "UP",
+          "description": "DESC_EX",
+          "enabled": true,
+          "ifindex": 5,
+          "last-change": "1787580156",
+          "mac-address": "MAC_EX",
+          "mtu": 9100,
+          "name": "Eth1/5",
+          "oper-status": "UP",
+          "rate-interval": 10,
+          "type": "iana-if-type:ethernetCsmacd"
+        }
+      },
+      {
+        "config": {
+          "description": "DESC_EX",
+          "enabled": true,
+          "mtu": 9100,
+          "name": "Eth1/6",
+          "type": "iana-if-type:ethernetCsmacd"
+        },
+        "openconfig-if-ethernet:ethernet": {
+          "config": {
+            "openconfig-if-ethernet-ext2:advertised-speed": "25000",
+            "auto-negotiate": true,
+            "openconfig-if-ethernet-ext2:port-fec": "openconfig-platform-types:FEC_DISABLED",
+            "port-speed": "openconfig-if-ethernet:SPEED_25GB",
+            "openconfig-if-ethernet-ext2:standalone-link-training": false,
+            "openconfig-if-ethernet-ext2:unreliable-los": "openconfig-if-ethernet-ext2:UNRELIABLE_LOS_MODE_AUTO"
+          }
+        },
+        "name": "Eth1/6",
+        "state": {
+          "admin-status": "UP",
+          "description": "DESC_EX",
+          "enabled": true,
+          "ifindex": 6,
+          "last-change": "1787580157",
+          "mac-address": "MAC_EX",
+          "mtu": 9100,
+          "name": "Eth1/6",
+          "oper-status": "UP",
+          "rate-interval": 10,
+          "type": "iana-if-type:ethernetCsmacd"
+        }
+      },
+      {
+        "config": {
+          "enabled": true,
+          "mtu": 9100,
+          "name": "Eth1/7",
+          "type": "iana-if-type:ethernetCsmacd"
+        },
+        "openconfig-if-ethernet:ethernet": {
+          "config": {
+            "openconfig-if-ethernet-ext2:advertised-speed": "25000",
+            "auto-negotiate": true,
+            "openconfig-if-ethernet-ext2:port-fec": "openconfig-platform-types:FEC_DISABLED",
+            "port-speed": "openconfig-if-ethernet:SPEED_25GB",
+            "openconfig-if-ethernet-ext2:standalone-link-training": false,
+            "openconfig-if-ethernet-ext2:unreliable-los": "openconfig-if-ethernet-ext2:UNRELIABLE_LOS_MODE_AUTO"
+          }
+        },
+        "name": "Eth1/7",
+        "state": {
+          "admin-status": "UP",
+          "description": "",
+          "enabled": true,
+          "ifindex": 7,
+          "mac-address": "MAC_EX",
+          "mtu": 9100,
+          "name": "Eth1/7",
+          "oper-status": "DOWN",
+          "rate-interval": 10,
+          "type": "iana-if-type:ethernetCsmacd"
+        }
+      },
+      {
+        "config": {
+          "enabled": true,
+          "mtu": 9100,
+          "name": "Eth1/8",
+          "type": "iana-if-type:ethernetCsmacd"
+        },
+        "openconfig-if-ethernet:ethernet": {
+          "config": {
+            "openconfig-if-ethernet-ext2:advertised-speed": "25000",
+            "openconfig-if-aggregate:aggregate-id": "PortChannel128",
+            "auto-negotiate": true,
+            "openconfig-if-ethernet-ext2:port-fec": "openconfig-platform-types:FEC_DISABLED",
+            "port-speed": "openconfig-if-ethernet:SPEED_25GB",
+            "openconfig-if-ethernet-ext2:standalone-link-training": false,
+            "openconfig-if-ethernet-ext2:unreliable-los": "openconfig-if-ethernet-ext2:UNRELIABLE_LOS_MODE_AUTO"
+          }
+        },
+        "name": "Eth1/8",
+        "state": {
+          "admin-status": "UP",
+          "description": "",
+          "enabled": true,
+          "ifindex": 8,
+          "last-change": "1787580159",
+          "mac-address": "MAC_EX",
+          "mtu": 9100,
+          "name": "Eth1/8",
+          "oper-status": "UP",
+          "rate-interval": 10,
+          "type": "iana-if-type:ethernetCsmacd"
+        }
+      },
+      {
+        "config": {
+          "enabled": true,
+          "mtu": 9100,
+          "name": "Eth1/9",
+          "type": "iana-if-type:ethernetCsmacd"
+        },
+        "openconfig-if-ethernet:ethernet": {
+          "config": {
+            "openconfig-if-ethernet-ext2:advertised-speed": "25000",
+            "openconfig-if-aggregate:aggregate-id": "PortChannel128",
+            "auto-negotiate": true,
+            "openconfig-if-ethernet-ext2:port-fec": "openconfig-platform-types:FEC_DISABLED",
+            "port-speed": "openconfig-if-ethernet:SPEED_25GB",
+            "openconfig-if-ethernet-ext2:standalone-link-training": false,
+            "openconfig-if-ethernet-ext2:unreliable-los": "openconfig-if-ethernet-ext2:UNRELIABLE_LOS_MODE_AUTO"
+          }
+        },
+        "name": "Eth1/9",
+        "state": {
+          "admin-status": "UP",
+          "description": "",
+          "enabled": true,
+          "ifindex": 9,
+          "last-change": "1787580160",
+          "mac-address": "MAC_EX",
+          "mtu": 9100,
+          "name": "Eth1/9",
+          "oper-status": "UP",
+          "rate-interval": 10,
+          "type": "iana-if-type:ethernetCsmacd"
+        }
+      },
+      {
+        "config": {
+          "enabled": true,
+          "mtu": 9100,
+          "name": "Eth1/10",
+          "type": "iana-if-type:ethernetCsmacd"
+        },
+        "openconfig-if-ethernet:ethernet": {
+          "config": {
+            "openconfig-if-ethernet-ext2:advertised-speed": "25000",
+            "openconfig-if-aggregate:aggregate-id": "PortChannel124",
+            "auto-negotiate": true,
+            "openconfig-if-ethernet-ext2:port-fec": "openconfig-platform-types:FEC_DISABLED",
+            "port-speed": "openconfig-if-ethernet:SPEED_25GB",
+            "openconfig-if-ethernet-ext2:standalone-link-training": false,
+            "openconfig-if-ethernet-ext2:unreliable-los": "openconfig-if-ethernet-ext2:UNRELIABLE_LOS_MODE_AUTO"
+          }
+        },
+        "name": "Eth1/10",
+        "state": {
+          "admin-status": "UP",
+          "description": "",
+          "enabled": true,
+          "ifindex": 10,
+          "mac-address": "MAC_EX",
+          "mtu": 9100,
+          "name": "Eth1/10",
+          "oper-status": "DOWN",
+          "rate-interval": 10,
+          "type": "iana-if-type:ethernetCsmacd"
+        }
+      }
+    ]
+  }
+}
