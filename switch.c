@@ -34,7 +34,7 @@ int main(int argc, char **argv)
     fd = fopen(file, "r");
     if(!fd)
     {
-        fprintf(stderr, "[ERROR] %s(%d) %s: fopen(%s) error_num:%d error_str:%s\n", __FILE__, __LINE__, __func__, file, errno, strerror(errno));
+        SWITCH_LOG_ERROR("fopen(%s) error_num:%d error_str:%s", file, errno, strerror(errno));
         rc = EXIT_FAILURE;
         goto cleanup;
     }
@@ -50,11 +50,11 @@ int main(int argc, char **argv)
     {
         if(read_failed)
         {
-            fprintf(stderr, "[ERROR] %s(%d) %s: getdelim() error_num:%d error_str:%s\n", __FILE__, __LINE__, __func__, errno, strerror(errno));
+            SWITCH_LOG_ERROR("getdelim() error_num:%d error_str:%s", errno, strerror(errno));
         }
         else
         {
-            fprintf(stderr, "[ERROR] %s(%d) %s: file: %s is empty\n", __FILE__, __LINE__, __func__, file);
+            SWITCH_LOG_ERROR("file: %s is empty", file);
         }
 
         rc = EXIT_FAILURE;
@@ -65,7 +65,7 @@ int main(int argc, char **argv)
     tokens = json_tokener_parse_verbose(data, &json_error);
     if(!tokens)
     {
-        fprintf(stderr, "[ERROR] %s(%d) %s: json_tokener_parse_verbose() error_desc:%s\n", __FILE__, __LINE__, __func__, json_tokener_error_desc(json_error));
+        SWITCH_LOG_ERROR("json_tokener_parse_verbose() error_desc:%s", json_tokener_error_desc(json_error));
         rc = EXIT_FAILURE;
         goto cleanup;
     }
