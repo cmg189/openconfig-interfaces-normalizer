@@ -17,7 +17,7 @@ void switch_cfg_output_config(switch_cfg_t *cfg)
 
     if(!cfg)
     {
-        fprintf(stderr, "[ERROR] %s(%d) %s: passing null cfg\n", __FILE__, __LINE__, __func__);
+        SWITCH_LOG_ERROR("%s", switch_status_get_string(SWITCH_ERR_NULL_ARG));
         return;
     }
 
@@ -53,7 +53,7 @@ void switch_cfg_cleanup_ports(switch_cfg_t *cfg)
 
     if(!cfg)
     {
-        fprintf(stderr, "[ERROR] %s(%d) %s: passing null cfg\n", __FILE__, __LINE__, __func__);
+        SWITCH_LOG_ERROR("%s", switch_status_get_string(SWITCH_ERR_NULL_ARG));
         return;
     }
 
@@ -130,7 +130,7 @@ static switch_port_t *switch_cfg_new_port(const char *if_name, switch_cfg_t *cfg
     }
     else
     {
-        fprintf(stderr, "[ERROR] %s(%d) %s: calloc() failed for port:%s error_num:%d error_str:%s\n", __FILE__, __LINE__, __func__, if_name, errno, strerror(errno));
+        SWITCH_LOG_ERROR("calloc() failed for port:%s error_num:%d error_str:%s", if_name, errno, strerror(errno));
     }
 
     return new_port;
@@ -159,13 +159,14 @@ static switch_port_t *switch_cfg_get_port(const char *if_name, const switch_cfg_
     return port;
 }
 
-void switch_cfg_add_port(const char *if_name, switch_cfg_t *cfg)
+switch_status_e switch_cfg_add_port(const char *if_name, switch_cfg_t *cfg)
 {
+    switch_status_e rc = SWITCH_ERR_NULL_ARG;
     switch_port_t *port = NULL;
 
     if(!if_name || !cfg)
     {
-        return;
+        return rc;
     }
 
     // create new port if one does not exist
@@ -173,18 +174,27 @@ void switch_cfg_add_port(const char *if_name, switch_cfg_t *cfg)
     if(!port)
     {
         port = switch_cfg_new_port(if_name, cfg);
+        if(port)
+        {
+            rc = SWITCH_OK;
+        }
+    }
+    else
+    {
+        rc = SWITCH_CFG_PRESENT;  // port is present in linked list
     }
 
-    return;
+    return rc;
 }
 
-void switch_cfg_set_port_type(const char *if_name, const char *type, switch_cfg_t *cfg)
+switch_status_e switch_cfg_set_port_type(const char *if_name, const char *type, switch_cfg_t *cfg)
 {
+    switch_status_e rc = SWITCH_ERR_NULL_ARG;
     switch_port_t *port = NULL;
 
     if(!if_name || !type || !cfg)
     {
-        return;
+        return rc;
     }
 
     // find port and set type
@@ -192,18 +202,24 @@ void switch_cfg_set_port_type(const char *if_name, const char *type, switch_cfg_
     if(port)
     {
         strlcpy(port->type, type, sizeof(port->type));
+        rc = SWITCH_OK;
+    }
+    else
+    {
+        rc = SWITCH_ERR_NOTFOUND;
     }
 
-    return;
+    return rc;
 }
 
-void switch_cfg_set_port_description(const char *if_name, const char *desc, switch_cfg_t *cfg)
+switch_status_e switch_cfg_set_port_description(const char *if_name, const char *desc, switch_cfg_t *cfg)
 {
+    switch_status_e rc = SWITCH_ERR_NULL_ARG;
     switch_port_t *port = NULL;
 
     if(!if_name || !desc || !cfg)
     {
-        return;
+        return rc;
     }
 
     // find port and set description
@@ -211,18 +227,24 @@ void switch_cfg_set_port_description(const char *if_name, const char *desc, swit
     if(port)
     {
         strlcpy(port->description, desc, sizeof(port->description));
+        rc = SWITCH_OK;
+    }
+    else
+    {
+        rc = SWITCH_ERR_NOTFOUND;
     }
 
-    return;
+    return rc;
 }
 
-void switch_cfg_set_port_enabled(const char *if_name, const bool enabled, switch_cfg_t *cfg)
+switch_status_e switch_cfg_set_port_enabled(const char *if_name, const bool enabled, switch_cfg_t *cfg)
 {
+    switch_status_e rc = SWITCH_ERR_NULL_ARG;
     switch_port_t *port = NULL;
 
     if(!if_name || !cfg)
     {
-        return;
+        return rc;
     }
 
     // find port and set enabled
@@ -230,18 +252,24 @@ void switch_cfg_set_port_enabled(const char *if_name, const bool enabled, switch
     if(port)
     {
         port->enabled = enabled ? 1 : 0;
+        rc = SWITCH_OK;
+    }
+    else
+    {
+        rc = SWITCH_ERR_NOTFOUND;
     }
 
-    return;
+    return rc;
 }
 
-void switch_cfg_set_port_mtu(const char *if_name, const int mtu, switch_cfg_t *cfg)
+switch_status_e switch_cfg_set_port_mtu(const char *if_name, const int mtu, switch_cfg_t *cfg)
 {
+    switch_status_e rc = SWITCH_ERR_NULL_ARG;
     switch_port_t *port = NULL;
 
     if(!if_name || !cfg)
     {
-        return;
+        return rc;
     }
 
     // find port and set mtu
@@ -249,18 +277,24 @@ void switch_cfg_set_port_mtu(const char *if_name, const int mtu, switch_cfg_t *c
     if(port)
     {
         port->mtu = mtu;
+        rc = SWITCH_OK;
+    }
+    else
+    {
+        rc = SWITCH_ERR_NOTFOUND;
     }
 
-    return;
+    return rc;
 }
 
-void switch_cfg_set_port_speed(const char *if_name, const char *speed, switch_cfg_t *cfg)
+switch_status_e switch_cfg_set_port_speed(const char *if_name, const char *speed, switch_cfg_t *cfg)
 {
+    switch_status_e rc = SWITCH_ERR_NULL_ARG;
     switch_port_t *port = NULL;
 
     if(!if_name || !speed || !cfg)
     {
-        return;
+        return rc;
     }
 
     // find port and set speed
@@ -268,18 +302,24 @@ void switch_cfg_set_port_speed(const char *if_name, const char *speed, switch_cf
     if(port)
     {
         strlcpy(port->speed, speed, sizeof(port->speed));
+        rc = SWITCH_OK;
+    }
+    else
+    {
+        rc = SWITCH_ERR_NOTFOUND;
     }
 
-    return;
+    return rc;
 }
 
-void switch_cfg_set_port_advertised_speed(const char *if_name, const char *speed, switch_cfg_t *cfg)
+switch_status_e switch_cfg_set_port_advertised_speed(const char *if_name, const char *speed, switch_cfg_t *cfg)
 {
+    switch_status_e rc = SWITCH_ERR_NULL_ARG;
     switch_port_t *port = NULL;
 
     if(!if_name || !speed || !cfg)
     {
-        return;
+        return rc;
     }
 
     // find port and set advertised_speed
@@ -287,18 +327,24 @@ void switch_cfg_set_port_advertised_speed(const char *if_name, const char *speed
     if(port)
     {
         strlcpy(port->advertised_speed, speed, sizeof(port->advertised_speed));
+        rc = SWITCH_OK;
+    }
+    else
+    {
+        rc = SWITCH_ERR_NOTFOUND;
     }
 
-    return;
+    return rc;
 }
 
-void switch_cfg_set_port_auto_negotiate(const char *if_name, const bool autoneg, switch_cfg_t *cfg)
+switch_status_e switch_cfg_set_port_auto_negotiate(const char *if_name, const bool autoneg, switch_cfg_t *cfg)
 {
+    switch_status_e rc = SWITCH_ERR_NULL_ARG;
     switch_port_t *port = NULL;
 
     if(!if_name || !cfg)
     {
-        return;
+        return rc;
     }
 
     // find port and set auto_negotiate
@@ -306,9 +352,14 @@ void switch_cfg_set_port_auto_negotiate(const char *if_name, const bool autoneg,
     if(port)
     {
         port->auto_negotiate = autoneg ? 1 : 0;
+        rc = SWITCH_OK;
+    }
+    else
+    {
+        rc = SWITCH_ERR_NOTFOUND;
     }
 
-    return;
+    return rc;
 }
 
 

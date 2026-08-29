@@ -23,7 +23,11 @@ void openconfig_interfaces_interface_ethernet_config(const json_object *config_o
 
     if( json_object_object_get_ex(config_obj, "auto-negotiate", &value) )
     {
-        switch_cfg_set_port_auto_negotiate(if_name, json_object_get_boolean(value), switch_cfg);
+        rc = switch_cfg_set_port_auto_negotiate(if_name, json_object_get_boolean(value), switch_cfg);
+        if(rc != SWITCH_OK)
+        {
+            SWITCH_LOG_ERROR("switch_cfg_set_port_auto_negotiate(%s) rc:%s", if_name, switch_status_get_string(rc));
+        }
     }
 
     // handle values with and without prefix: 'openconfig-if-ethernet:'
@@ -44,7 +48,11 @@ void openconfig_interfaces_interface_ethernet_config(const json_object *config_o
         }
 
         strlcpy(speed, tmp_str, sizeof(speed));
-        switch_cfg_set_port_speed(if_name, speed, switch_cfg);
+        rc = switch_cfg_set_port_speed(if_name, speed, switch_cfg);
+        if(rc != SWITCH_OK)
+        {
+            SWITCH_LOG_ERROR("switch_cfg_set_port_speed(%s, %s) rc:%s", if_name, speed, switch_status_get_string(rc));
+        }
     }
 
     // handle leafs with and without prefix: 'openconfig-if-ethernet-ext2:'
@@ -58,7 +66,11 @@ void openconfig_interfaces_interface_ethernet_config(const json_object *config_o
         if( tmp_str && strlen(tmp_str) )
         {
             snprintf(speed, sizeof(speed), "%s Mbps", tmp_str);
-            switch_cfg_set_port_advertised_speed(if_name, speed, switch_cfg);
+            rc = switch_cfg_set_port_advertised_speed(if_name, speed, switch_cfg);
+            if(rc != SWITCH_OK)
+            {
+                SWITCH_LOG_ERROR("switch_cfg_set_port_advertised_speed(%s, %s) rc:%s", if_name, speed, switch_status_get_string(rc));
+            }
         }
     }
 
@@ -92,11 +104,15 @@ void openconfig_interfaces_interface(const json_object *interfaces_obj, switch_c
         {
             strlcpy(if_name, json_object_get_string(value), sizeof(if_name));
 
-            switch_cfg_add_port(if_name, switch_cfg);
+            rc = switch_cfg_add_port(if_name, switch_cfg);
+            if(rc != SWITCH_OK && rc != SWITCH_CFG_PRESENT)
+            {
+                SWITCH_LOG_ERROR("switch_cfg_add_port(%s) rc:%s interface[%zu]", if_name, switch_status_get_string(rc), i);
+            }
         }
         else
         {
-            fprintf(stderr, "[ERROR] %s(%d) %s: unable to get key:NAME from interface[%zu]\n", __FILE__, __LINE__, __func__, i);
+            SWITCH_LOG_ERROR("unable to get key:NAME from interface[%zu]", i);
             continue;
         }
 
@@ -105,7 +121,11 @@ void openconfig_interfaces_interface(const json_object *interfaces_obj, switch_c
         {
             if( json_object_object_get_ex(c1, "enabled", &value) )
             {
-                switch_cfg_set_port_enabled(if_name, json_object_get_boolean(value), switch_cfg);
+                rc = switch_cfg_set_port_enabled(if_name, json_object_get_boolean(value), switch_cfg);
+                if(rc != SWITCH_OK)
+                {
+                    SWITCH_LOG_ERROR("switch_cfg_set_port_enabled(%s) rc:%s", if_name, switch_status_get_string(rc));
+                }
             }
 
             // handle values with and without prefix 'iana-if-type:'
@@ -118,7 +138,11 @@ void openconfig_interfaces_interface(const json_object *interfaces_obj, switch_c
                     type_str = delim + 1;  // remove prefix
                 }
 
-                switch_cfg_set_port_type(if_name, type_str, switch_cfg);
+                rc = switch_cfg_set_port_type(if_name, type_str, switch_cfg);
+                if(rc != SWITCH_OK)
+                {
+                    SWITCH_LOG_ERROR("switch_cfg_set_port_type(%s, %s) rc:%s", if_name, type_str, switch_status_get_string(rc));
+                }
             }
 
             if( json_object_object_get_ex(c1, "description", &value) )
@@ -126,13 +150,21 @@ void openconfig_interfaces_interface(const json_object *interfaces_obj, switch_c
                 const char *desc = json_object_get_string(value);
                 if( desc && strlen(desc) )
                 {
-                    switch_cfg_set_port_description(if_name, desc, switch_cfg);
+                    rc = switch_cfg_set_port_description(if_name, desc, switch_cfg);
+                    if(rc != SWITCH_OK)
+                    {
+                        SWITCH_LOG_ERROR("switch_cfg_set_port_description(%s, %s) rc:%s", if_name, desc, switch_status_get_string(rc));
+                    }
                 }
             }
 
             if( json_object_object_get_ex(c1, "mtu", &value) )
             {
-                switch_cfg_set_port_mtu(if_name, json_object_get_int(value), switch_cfg);
+                rc = switch_cfg_set_port_mtu(if_name, json_object_get_int(value), switch_cfg);
+                if(rc != SWITCH_OK)
+                {
+                    SWITCH_LOG_ERROR("switch_cfg_set_port_mtu(%s, %d) rc:%s", if_name, json_object_get_int(value), switch_status_get_string(rc));
+                }
             }
         }
 
@@ -160,7 +192,7 @@ void openconfig_interfaces(const json_object *interfaces_obj, switch_cfg_t *swit
     }
     else
     {
-        fprintf(stderr, "[ERROR] %s(%d) %s: openconfig-interfaces:interfaces not found in json:%s\n", __FILE__, __LINE__, __func__, json_object_get_string(interfaces_obj));
+        SWITCH_LOG_ERROR("openconfig-interfaces:interfaces not found in json:%s", json_object_get_string(interfaces_obj));
     }
 
     return;
