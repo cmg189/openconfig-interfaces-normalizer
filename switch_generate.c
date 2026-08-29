@@ -16,14 +16,14 @@
 
 
 
-void openconfig_interfaces_interface_ethernet_config(const json_object *config_obj)
+void openconfig_interfaces_interface_ethernet_config(const json_object *config_obj, const char *if_name, switch_cfg_t *switch_cfg)
 {
     json_object *value = NULL;
     char speed[128] = { 0 };
 
     if( json_object_object_get_ex(config_obj, "auto-negotiate", &value) )
     {
-        printf("    auto-negotiate: %c\n", json_object_get_boolean(value) ? 'T' : 'F');
+        switch_cfg_set_port_auto_negotiate(if_name, json_object_get_boolean(value), switch_cfg);
     }
 
     // handle values with and without prefix: 'openconfig-if-ethernet:'
@@ -44,7 +44,7 @@ void openconfig_interfaces_interface_ethernet_config(const json_object *config_o
         }
 
         strlcpy(speed, tmp_str, sizeof(speed));
-        printf("    port-speed: %s\n", speed);
+        switch_cfg_set_port_speed(if_name, speed, switch_cfg);
     }
 
     // handle leafs with and without prefix: 'openconfig-if-ethernet-ext2:'
@@ -58,14 +58,14 @@ void openconfig_interfaces_interface_ethernet_config(const json_object *config_o
         if( tmp_str && strlen(tmp_str) )
         {
             snprintf(speed, sizeof(speed), "%s Mbps", tmp_str);
-            printf("    %s\n", speed);
+            switch_cfg_set_port_advertised_speed(if_name, speed, switch_cfg);
         }
     }
 
     return;
 }
 
-void openconfig_interfaces_interface(const json_object *interfaces_obj)
+void openconfig_interfaces_interface(const json_object *interfaces_obj, switch_cfg_t *switch_cfg)
 {
     const size_t num_interfaces = json_object_array_length(interface_obj);
     json_object *array_obj = NULL;
@@ -84,13 +84,15 @@ void openconfig_interfaces_interface(const json_object *interfaces_obj)
     for(size_t i=0; i< num_interfaces; i++)
     {
         switch_status_e rc = SWITCH_OK;
-        char if_name[64] = { 0 };
+        char if_name[MAX_IF_NAME_SZ] = { 0 };
 
         array_obj = json_object_array_get_idx(interface_obj, i);
 
         if( json_object_object_get_ex(array_obj, "name", &value) && json_object_get_string(value) )
         {
-            printf("interface #%zu %s\n", i+1, json_object_get_string(value));
+            strlcpy(if_name, json_object_get_string(value), sizeof(if_name));
+
+            switch_cfg_add_port(if_name, switch_cfg);
         }
         else
         {
@@ -103,7 +105,7 @@ void openconfig_interfaces_interface(const json_object *interfaces_obj)
         {
             if( json_object_object_get_ex(c1, "enabled", &value) )
             {
-                printf("    enabled: %c\n", json_object_get_boolean(value) ? 'T' : 'F');
+                switch_cfg_set_port_enabled(if_name, json_object_get_boolean(value), switch_cfg);
             }
 
             // handle values with and without prefix 'iana-if-type:'
@@ -115,7 +117,8 @@ void openconfig_interfaces_interface(const json_object *interfaces_obj)
                 {
                     type_str = delim + 1;  // remove prefix
                 }
-                printf("    type: %s\n", type_str);
+
+                switch_cfg_set_port_type(if_name, type_str, switch_cfg);
             }
 
             if( json_object_object_get_ex(c1, "description", &value) )
@@ -123,27 +126,27 @@ void openconfig_interfaces_interface(const json_object *interfaces_obj)
                 const char *desc = json_object_get_string(value);
                 if( desc && strlen(desc) )
                 {
-                    printf("    description: %s\n", desc);
+                    switch_cfg_set_port_description(if_name, desc, switch_cfg);
                 }
             }
 
             if( json_object_object_get_ex(c1, "mtu", &value) )
             {
-                printf("    mtu: %d\n", json_object_get_int(value));
+                switch_cfg_set_port_mtu(if_name, json_object_get_int(value), switch_cfg);
             }
         }
 
         // interface[NAME]/openconfig-if-ethernet:ethernet/config
         if( json_object_object_get_ex(array_obj, "openconfig-if-ethernet:ethernet", &c1) && json_object_object_get_ex(c1, "config", &c2) )
         {
-            openconfig_interfaces_interface_ethernet_config(c2);
+            openconfig_interfaces_interface_ethernet_config(c2, if_name, switch_cfg);
         }
     }
 
     return;
 }
 
-void openconfig_interfaces(const json_object *interfaces_obj)
+void openconfig_interfaces(const json_object *interfaces_obj, switch_cfg_t *switch_cfg)
 {
     json_object *c1 = NULL;
     json_object *c2 = NULL;
@@ -152,11 +155,7 @@ void openconfig_interfaces(const json_object *interfaces_obj)
     {
         if( json_object_object_get_ex(c1, "interface", &c2) )
         {
-            openconfig_interfaces_interface(c2);  // openconfig-interfaces:interfaces/interface
-        }
-        else
-        {
-            printf("[INFO] %s(%d) %s: no interface configuration present\n", __FILE__, __LINE__, __func__);
+            openconfig_interfaces_interface(c2, switch_cfg);  // openconfig-interfaces:interfaces/interface
         }
     }
     else

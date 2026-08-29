@@ -17,6 +17,7 @@
 int main(int argc, char **argv)
 {
     // data buffers
+    switch_cfg_t switch_cfg = { 0 };
     json_object *tokens = NULL;
     char *data = NULL;
     FILE *fd = NULL;
@@ -69,8 +70,10 @@ int main(int argc, char **argv)
         goto cleanup;
     }
 
-    // parse and output cfg
-    openconfig_interfaces(tokens);
+    // init and output switch_cfg
+    openconfig_interfaces(tokens, &switch_cfg);
+
+    switch_cfg_output_config(&switch_cfg);
 
     // free memory
     cleanup:
@@ -86,6 +89,8 @@ int main(int argc, char **argv)
             free(data);
             data = NULL;
         }
+
+        switch_cfg_cleanup_ports(&switch_cfg);
     }
 
     return rc;
